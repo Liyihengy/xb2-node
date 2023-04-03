@@ -1,0 +1,18 @@
+# compiled outpit
+/dist
+/node_modules
+
+#logs
+logs
+*.log
+npm-debug.log*
+
+#os
+.DS_Store
+
+# ide-vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
