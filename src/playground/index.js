@@ -190,18 +190,18 @@
 // console.log(car2);
 
 // 类的继承:extends
-class Car {
-  text;
-  constructor(text) {
-    this.text = text;
-    console.log("这是一辆崭新的小汽车");
-  }
-  bigCar() {
-    console.log("小飞机来咯");
-  }
-}
+// class Car {
+//   text;
+//   constructor(text) {
+//     this.text = text;
+//     console.log("这是一辆崭新的小汽车");
+//   }
+//   bigCar() {
+//     console.log("小飞机来咯");
+//   }
+// }
 
-class Tank extends Car {}
-const p1 = new Tank("啦啦啦啦啦");
-p1.bigCar();
-console.log(p1);
+// class Tank extends Car {}
+// const p1 = new Tank("啦啦啦啦啦");
+// p1.bigCar();
+// console.log(p1);
