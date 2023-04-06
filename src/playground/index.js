@@ -57,7 +57,7 @@
 // console.log(page);
 // console.log(food);
 
-// 把对象里的内容提取出来赋予另外一个
+// 把对象里的内容全部提取出来赋予另外一个
 // const book = {
 //   name: "小白兔的开发之路",
 //   content: "李依恒",
