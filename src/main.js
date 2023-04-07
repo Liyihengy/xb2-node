@@ -4,6 +4,9 @@ const app = express();
 
 // 服务端口创建
 const port = 3000;
+/*使用josn中间件处理客户端发过来的json格式请求*/
+app.use(express.json());
+
 app.listen(port, () => {
   console.log("🚀服务已启动！");
 });
@@ -49,4 +52,20 @@ app.get("/posts/:postId", (request, response) => {
 
   //做出响应，返回第一个数组内容
   response.send(posts[0]);
+});
+
+//创建内容
+app.post("/posts", (request, response) => {
+  //获取请求里的数据
+  const { content } = request.body;
+  //设置响应状态码
+  response.status(201);
+  //输出请求数据头部信息
+  console.log(request.headers["sing-along"]);
+  //设置响应的头部数据
+  response.set("Sing-Along", "How I wonder what you are");
+  //作出响应
+  response.send({
+    message: `成功创建了内容: ${content}`,
+  });
 });
