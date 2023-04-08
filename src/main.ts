@@ -1,5 +1,6 @@
 //创建一个应用包导入名字叫做express
-const express = require("express");
+import express from "express";
+import { Request, Response } from "express";
 const app = express();
 
 // 服务端口创建
@@ -12,7 +13,7 @@ app.listen(port, () => {
 });
 
 //定义一个接口路由
-app.get("/", (request, response) => {
+app.get("/", (request: Request, response: Response) => {
   response.send("你好~");
 });
 
@@ -37,11 +38,11 @@ const data = [
   },
 ];
 
-app.get("/posts", (request, response) => {
+app.get("/posts", (request: Request, response: Response) => {
   response.send(data);
 });
 
-app.get("/posts/:postId", (request, response) => {
+app.get("/posts/:postId", (request: Request, response: Response) => {
   //获取ID内容（也就是浏览器地址输入的内容）赋值给postid
   const { postId } = request.params;
 
