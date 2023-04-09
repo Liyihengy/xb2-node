@@ -48,7 +48,8 @@ app.get("/posts/:postId", (request: Request, response: Response) => {
 
   //查找data元素中id的具体内容是否等于输入的内容postid，filter会以数组的形式返回
   const posts = data.filter((item) => {
-    return item.id == postId;
+    //因为这里item的值为number类型，postId的值为string文字类型所以才会进行报错，需要进行一下转换为十进制类型的数字
+    return item.id == parseInt(postId, 10);
   });
 
   //做出响应，返回第一个数组内容
@@ -56,7 +57,7 @@ app.get("/posts/:postId", (request: Request, response: Response) => {
 });
 
 //创建内容
-app.post("/posts", (request, response) => {
+app.post("/posts", (request: Request, response: Response) => {
   //获取请求里的数据
   const { content } = request.body;
   //设置响应状态码
