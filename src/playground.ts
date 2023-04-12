@@ -3,6 +3,9 @@
 //   console.log("Log::");
 // }
 
+// import { reject } from 'lodash';
+// import { resolve } from 'path';
+
 // 函数参数
 // const log = (text, title) => {
 //   console.log(title, text);
@@ -205,3 +208,54 @@
 // const p1 = new Tank("啦啦啦啦啦");
 // p1.bigCar();
 // console.log(p1);
+
+//回调函数
+//callback回调概念
+// const nature = callback => {
+//   const data = '🥦';
+//   callback(data);
+// };
+// nature(data => {
+//   console.log(data);
+// });
+
+//承诺
+//promise
+// const natrue = () => {
+//   return new Promise((resolve, reject) => {
+//     resolve('🦖');
+//   });
+// };
+// natrue().then(data => {
+//   console.log(data);
+// });
+//设置时间
+// const nature = () => {
+//   console.log('...');
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       resolve('🦖');
+//     }, 2000);
+//   });
+// };
+
+// nature().then(data => {
+//   console.log(data);
+// });
+
+// console.log('🐯');
+//异步函数 async await，简化上面的步骤
+const nature = () => {
+  console.log('...');
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('🦖');
+    }, 2000);
+  });
+};
+const demo = async () => {
+  const data = await nature();
+  console.log(data);
+};
+demo();
+console.log('🐯');
