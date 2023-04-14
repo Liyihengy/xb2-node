@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import * as userService from './user.service';
 
 /**
@@ -25,6 +25,12 @@ export const validateUserData = async (
       next()
     );
 };
+// export const validateUserData = (request, response, next) => {
+//   const { name, password } = request.body;
+//   if (!name) return next(new Error('NAME_IS_REQUIRED'));
+//   if (!password) return next(new Error('PASSWORD_IS_REQUIRED'));
+//   next();
+// };
 
 /**
  * HASH密码
@@ -37,7 +43,7 @@ export const hashPassword = async (
   //准备数据
   const { password } = request.body;
   //HASH密码
-  request.body.password = await bcrypt.hash(password, 10);
+  request.body.password = await bcrypt.hash(password, 6);
   //下一步
   next();
 };
