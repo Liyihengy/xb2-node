@@ -6,8 +6,6 @@ import { PUBLIC_KEY } from '../app/app.config';
 import { error } from 'console';
 import { TokenPayload } from './auth.interface';
 import { possess } from './auth.service';
-import { request } from 'http';
-
 /**
  * 验证用户登录数据
  */
