@@ -1,23 +1,51 @@
 import { connection } from '../app/database/mysql';
 import { PostModel } from './post.model';
+import { sqlFragment } from './post.provider';
 
 /**
  * 获取内容列表
  */
-export const getPosts = async () => {
+export interface GetPostOptionsFilter {
+  name: string;
+  sql?: string;
+  param?: string;
+}
+
+interface GetPostsOptions {
+  sort?: string;
+  filter?: GetPostOptionsFilter;
+}
+
+export const getPosts = async (options: GetPostsOptions) => {
+  const { sort, filter } = options;
+  //sql参数,Array的意思是数组里面的任意类型
+  let params: Array<any> = [];
+
+  //设置sql参数
+  if (filter.param) {
+    params = [filter.param, ...params];
+  }
+
   const statement = `
-  SELECT 
+  SELECT
   post.id,
   post.title,
   post.content,
-  JSON_OBJECT(
-    'id',user.id,'name',user.name
-  )as user
+  ${sqlFragment.user},
+  ${sqlFragment.totalComments},
+  ${sqlFragment.file},
+  ${sqlFragment.tags}
   FROM post
-  LEFT JOIN user 
-  ON user.id = post.userId
+  ${sqlFragment.leftJoinUser}
+  ${sqlFragment.leftJoinOneFile}
+  ${sqlFragment.leftJoinTag}
+  WHERE ${filter.sql}
+  GROUP BY post.id
+  ORDER BY ${sort} 
   `;
-  const [data] = await connection.promise().query(statement);
+  console.log(`${sqlFragment.totalComments}`);
+  const [data] = await connection.promise().query(statement, params);
+
   return data;
 };
 
