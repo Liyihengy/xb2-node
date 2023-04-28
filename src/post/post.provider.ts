@@ -7,7 +7,8 @@ export const sqlFragment = {
       'id',user.id,
       'name',user.name,
       'avatar', IF(COUNT(avatar.id), 1 ,null)
-    )as user`,
+    )AS user`,
+
   leftJoinUser: `
     LEFT JOIN user 
     ON user.id = post.userId
@@ -23,8 +24,9 @@ export const sqlFragment = {
         comment
       WHERE
         comment.postId = post.id
-    ) as totalComments
+    ) AS totalComments
   `,
+
   leftJoinOneFile: `
       LEFT JOIN LATERAL(
         SELECT * 
@@ -34,6 +36,7 @@ export const sqlFragment = {
         LIMIT 1
       ) AS file ON post.id = file.postId
   `,
+
   file: `
     CAST(
       IF(
@@ -49,6 +52,7 @@ export const sqlFragment = {
       )AS JSON
     ) AS file
     `,
+
   leftJoinTag: `
     LEFT JOIN 
       post_tag ON post_tag.postId = post.id
@@ -57,22 +61,22 @@ export const sqlFragment = {
   `,
 
   tags: `
-  CAST(
-    IF(
-      COUNT(tag.id),
-      CONCAT(
-        '[',
-          GROUP_CONCAT(
-            DISTINCT JSON_OBJECT(
-              'id','tag.id',
-              'name','tag.name'
-            )
-          ),
-        ']'
-      ),
-      NULL
-    )AS JSON
-  )AS tags
+    CAST(
+      IF(
+        COUNT(tag.id),
+        CONCAT(
+          '[',
+            GROUP_CONCAT(
+              DISTINCT JSON_OBJECT(
+                'id','tag.id',
+                'name','tag.name'
+              )
+            ),
+          ']'
+        ),
+        NULL
+      )AS JSON
+    )AS tags
   `,
   totalLikes: `
     (
@@ -81,6 +85,7 @@ export const sqlFragment = {
       WHERE user_like_post.postId =post.id
     ) AS totalLikes
   `,
+
   innerJoinUserLikePost: `
     Inner JOIN user_like_post
       ON user_like_post.postId=post.id

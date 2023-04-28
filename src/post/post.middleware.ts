@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { POSTS_PER_PAGE } from '../app/app.config';
 
 /**
  * 排序方式
@@ -47,11 +46,13 @@ export const filter = async (
 ) => {
   //解构查询符
   const { tag, user, action } = request.query;
+
   //设置默认的过滤
   request.filter = {
     name: 'default',
     sql: 'post.id IS NOT NULL',
   };
+
   //按标签名过滤
   if (tag && !user && !action) {
     request.filter = {
@@ -60,6 +61,7 @@ export const filter = async (
       param: `${tag}`,
     };
   }
+
   //过滤用户发布的内容
   if (user && action == 'published' && !tag) {
     request.filter = {
@@ -68,7 +70,7 @@ export const filter = async (
       param: `${user}`,
     };
   }
-  // }
+
   // 过滤出用户赞过的内容
   if (user && action == 'liked' && !tag) {
     request.filter = {
@@ -77,6 +79,7 @@ export const filter = async (
       param: `${user}`,
     };
   }
+
   //下一步
   next();
 };
@@ -84,22 +87,20 @@ export const filter = async (
 /**
  * 内容分页
  */
-export const paginate = async (
-  request: Request,
-  response: Response,
-  next: NextFunction,
-) => {
-  //当前页码
-  const { page = 1 } = request.query;
+export const paginate = (itemsPerPage: number) => {
+  return async (request: Request, response: Response, next: NextFunction) => {
+    //当前页码
+    const { page = 1 } = request.query;
 
-  //每页内容数量
-  const limit = parseInt(POSTS_PER_PAGE, 10) || 30;
+    //每页内容数量
+    const limit = itemsPerPage || 30;
 
-  //计算出偏移量
-  const offset = limit * (parseInt(`${page}`, 10) - 1);
+    //计算出偏移量
+    const offset = limit * (parseInt(`${page}`, 10) - 1);
 
-  //设置请求中的分页
-  request.pagination = { limit, offset };
-  //下一步
-  next();
+    //设置请求中的分页
+    request.pagination = { limit, offset };
+    //下一步
+    next();
+  };
 };
