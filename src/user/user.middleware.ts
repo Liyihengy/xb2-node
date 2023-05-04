@@ -19,13 +19,11 @@ export const validateUserData = async (
   if (!password) return next(new Error('PASSWORD_IS_REQUIRED'));
   //验证用户名
   const user = await userService.getUserByName(name);
-  if (user)
-    return (
-      next(new Error('USER_IS_EXIST')),
-      //下一步
-      next()
-    );
+  if (user) return next(new Error('USER_IS_EXIST'));
+  //下一步
+  next();
 };
+
 // export const validateUserData = (request, response, next) => {
 //   const { name, password } = request.body;
 //   if (!name) return next(new Error('NAME_IS_REQUIRED'));

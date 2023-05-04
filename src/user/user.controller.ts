@@ -16,6 +16,9 @@ export const store = async (
   //创建用户
   try {
     const data = await userService.createUser({ name, password });
+
+    //相应数据
+    response.status(201).send(data);
   } catch (error) {
     next(error);
   }
