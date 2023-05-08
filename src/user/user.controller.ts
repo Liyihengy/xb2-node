@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import _ from 'lodash';
 import * as userService from './user.service';
+import { connection } from 'src/app/database/mysql';
 
 /**
  * 创建用户
