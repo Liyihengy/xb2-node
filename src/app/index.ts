@@ -1,5 +1,6 @@
 //导入一个包
 import express from 'express';
+import cors from 'cors';
 import postRouter from '../post/post.router';
 import userRouter from '../user/user.router';
 import authRouter from '../auth/auth.router';
@@ -14,6 +15,16 @@ import { defaultErrorHandler } from './app.middleware';
  * 创建应用
  */
 const app = express();
+
+/**
+ * 跨域资源共享
+ */
+app.use(
+  cors({
+    origin: '*',
+    exposedHeaders: 'X-Total-Count',
+  }),
+);
 
 /**
  * 配置一下处理json格式
