@@ -72,6 +72,7 @@ export const validateUpdateUserData = async (
 
     //验证用户密码是否匹配
     const matched = await bcrypt.compare(validate.password, user.password);
+    console.log(matched);
 
     if (!matched) {
       return next(new Error('PASSWORD_DOES_NOT_MATCH'));
