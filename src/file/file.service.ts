@@ -96,7 +96,7 @@ export const getPostFiles = async (postId: number) => {
  * 删除内容文件
  */
 export const deletePostFiles = async (files: Array<FileModel>) => {
-  const uploads = 'uploads';
+  const uploads = 'upload';
   const resized = [uploads, 'resized'];
 
   files.map(file => {
