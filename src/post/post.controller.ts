@@ -14,6 +14,7 @@ import {
 import { TagModel } from '../tag/tag.model';
 import { getTagByName, createTag, deletePostTag } from '../tag/tag.service';
 import { currentUser } from 'src/auth/auth.middleware';
+import { deletePostFiles, getPostFiles } from '../file/file.service';
 
 /**
  * 内容列表
@@ -101,6 +102,12 @@ export const destroy = async (
 
   //删除内容
   try {
+    const files = await getPostFiles(parseInt(postId, 10));
+
+    if (files.length) {
+      await deletePostFiles(files);
+    }
+
     const data = await deletePost(parseInt(postId, 10));
     response.send(data);
   } catch (error) {
