@@ -13,6 +13,7 @@ import {
 } from './post.service';
 import { TagModel } from '../tag/tag.model';
 import { getTagByName, createTag, deletePostTag } from '../tag/tag.service';
+import { currentUser } from 'src/auth/auth.middleware';
 
 /**
  * 内容列表
@@ -193,7 +194,9 @@ export const show = async (
 
   //调取内容
   try {
-    const post = await getPostById(parseInt(postId, 10));
+    const post = await getPostById(parseInt(postId, 10), {
+      currentUser: request.user,
+    });
 
     //作出响应
     response.send(post);
