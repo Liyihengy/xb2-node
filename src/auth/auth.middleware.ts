@@ -44,26 +44,44 @@ export const authGuard = (
 ) => {
   console.log('👮🏻 验证用户身份');
 
+  if (request.user.id) {
+    next();
+  } else {
+    next(new Error('UNAUTHORIZED'));
+  }
+};
+
+/**
+ * 识别当前用户
+ */
+export const currentUser = (
+  request: Request,
+  response: Response,
+  next: NextFunction,
+) => {
+  let user: TokenPayload = {
+    id: null,
+    name: 'anonymous',
+  };
+
   try {
     //提取Authorization
     const authorization = request.header('Authorization');
-    if (!authorization) throw new Error();
 
     //提取JWT令牌
     const token = authorization.replace('Bearer ', '');
-    if (!token) throw new Error();
+    if (token) {
+      //验证令牌，验证用户在客户端输入的信息与jwt令牌与公钥作对比验证，验证成功后把客户端的数据赋值给decoded这个常量
+      const decoded = jwt.verify(token, PUBLIC_KEY, { algorithms: ['RS256'] });
 
-    //验证令牌，验证用户在客户端输入的信息与jwt令牌与公钥作对比验证，验证成功后把客户端的数据赋值给decoded这个常量
-    const decoded = jwt.verify(token, PUBLIC_KEY, { algorithms: ['RS256'] });
+      user = decoded as TokenPayload;
+    }
+  } catch (error) {}
 
-    //在请求里添加用户，获取请求里用户的数据，我在之前这个文件里定义了user里面所包含的数据
-    request.user = decoded as TokenPayload;
+  request.user = user;
 
-    //下一步
-    next();
-  } catch (error) {
-    next(new Error('UNAUTHORIZED'));
-  }
+  //下一步
+  next();
 };
 
 /**

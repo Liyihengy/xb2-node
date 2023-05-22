@@ -10,6 +10,7 @@ import commentRouter from '../comment/comment.router';
 import avatarRouter from '../avatar/avatar.router';
 import likeRouter from '../like/like.router';
 import appRouter from '../app/app.router';
+import { currentUser } from '../auth/auth.middleware';
 import { defaultErrorHandler } from './app.middleware';
 /**
  * 创建应用
@@ -30,6 +31,11 @@ app.use(
  * 配置一下处理json格式
  */
 app.use(express.json());
+
+/**
+ *处理json
+ */
+app.use(currentUser);
 
 /**
  * 路由
